@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -71,7 +73,7 @@ class AuthController extends Controller
     }
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        return response()->json(Auth::user());
     }
 
 
