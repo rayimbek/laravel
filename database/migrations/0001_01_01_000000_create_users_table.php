@@ -22,7 +22,6 @@ return new class extends Migration
             $table->timestamps();
             $table->date('date_of_birth');
             $table->string('phone');
-            $table->string('subject');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

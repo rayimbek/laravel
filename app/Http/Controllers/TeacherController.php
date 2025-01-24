@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Schedule;
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Resources\StudentResource;
+use App\Http\Resources\ScheduleResource;
 
 class TeacherController extends Controller
 {
@@ -61,4 +65,11 @@ class TeacherController extends Controller
         $student = Student::create($request->only('first_name', 'last_name', 'date_of_birth', 'room_id'));
         return response()->json($student, 201);
     }
+    public function getScheduleByRoom($roomId)
+    {
+        $schedules = Schedule::where('room_id', $roomId)->get();
+        return ScheduleResource::collection($schedules);
+    }
+
+
 }

@@ -3,6 +3,13 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\StudentController;
+
+
+Route::get('/rooms/{roomId}/schedules', [TeacherController::class, 'getScheduleByRoom']);
+
+Route::post('/students', [StudentController::class, 'store']);
+Route::get('/students/{id}', [StudentController::class, 'show']);
 
 
 Route::get('/test', function () {
@@ -19,10 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::get('/classes', [TeacherController::class, 'getRooms']);
-Route::get('/students', [TeacherController::class, 'getAllStudents']);
+Route::get('/get-all/students', [TeacherController::class, 'getAllStudents']);
 Route::get('/classes/{roomId}/students', [TeacherController::class, 'getStudentsByClass']);
 
 Route::post('/subjects', [TeacherController::class, 'createSubject']);
 Route::post('/classes', [TeacherController::class, 'createRoom']);
-Route::post('/students', [TeacherController::class, 'createStudent']);
+//Route::post('/students', [TeacherController::class, 'createStudent']);
 
