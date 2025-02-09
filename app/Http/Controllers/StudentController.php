@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudentRequest;
-use App\Services\StudentService;
+use App\Http\Services\StudentService;
 use App\Http\Resources\StudentResource;
 
 class StudentController extends Controller

@@ -19,6 +19,11 @@ class TeacherController extends Controller
         return response()->json($rooms);
     }
 
+    public function getSubjects()
+    {
+        $subject = Subject::all();
+        return response()->json($subject);
+    }
     public function getAllStudents()
     {
         $students = Student::with('room')->get();
@@ -53,18 +58,6 @@ class TeacherController extends Controller
         return response()->json($room, 201);
     }
 
-    public function createStudent(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'date_of_birth' => 'required|date',
-            'room_id' => 'required|exists:rooms,id',
-        ]);
-
-        $student = Student::create($request->only('first_name', 'last_name', 'date_of_birth', 'room_id'));
-        return response()->json($student, 201);
-    }
     public function getScheduleByRoom($roomId)
     {
         $schedules = Schedule::where('room_id', $roomId)->get();

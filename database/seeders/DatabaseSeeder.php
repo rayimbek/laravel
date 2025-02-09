@@ -6,17 +6,27 @@ use App\Models\User;
 use App\Models\Room;
 use App\Models\Student;
 use App\Models\Schedule;
+use App\Models\Subject;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class   DatabaseSeeder extends Seeder
+class  DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
+        $user = User::factory()->create([
+            'name' => 'Sergey',
+            'surname' => 'Lazarev',
+            'email' => 'sergeyy@example.com',
+            'phone' => '123101-0233-02',
+            'date_of_birth' => '2001-02-02',
+            'password' => Hash::make('password'),
+        ]);
+
         $room = Room::create(['name' => '1A']);
 
         Student::create([
@@ -33,21 +43,19 @@ class   DatabaseSeeder extends Seeder
             'room_id' => $room->id,
         ]);
 
+        $subject = Subject::create([
+            'name' => 'Mathematics',
+            'teacher_id' => $user->id,
+        ]);
+
         Schedule::create([
             'room_id' => $room->id,
-            'day' => 'Monday',
-            'subject' => 'Mathematics',
+            'week_day' => 'Monday',
+            'subject' => $subject->name,
             'start_time' => '09:00',
             'end_time' => '10:00',
         ]);
 
-        User::factory()->create([
-            'name' => 'Sergey',
-            'surname' => 'Lazarev',
-            'email' => 'sergeyy@example.com',
-            'phone' => '123101-0233-02',
-            'date_of_birth' => '2001-02-02',
-            'password' => Hash::make('password'),
-        ]);
+
     }
 }

@@ -20,7 +20,7 @@ class AuthController extends Controller
             'date_of_birth' => 'required|date',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|max:15',
-            'subject' => 'required|string|max:255',
+            'subject' => 'required|exists:subjects,name',
             'password' => 'required|string|min:8',
         ]);
 
@@ -56,20 +56,18 @@ class AuthController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-        if (!auth()->attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid login details'], 401);
-        }
-
-        $user = User::where('email', $request['email'])->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json(['message' => 'Hi ' . $user->name, 'access_token' => $token, 'token_type' => 'Bearer']);
     }
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['message' => 'Logged out successfully'], 200);
+        if ($request->user()) {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['message' => 'Logged out successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Not authenticated'], 401);
+        }
     }
     public function user(Request $request)
     {
