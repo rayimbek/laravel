@@ -15,6 +15,11 @@ class StudentController extends Controller
         $this->studentService = $studentService;
     }
 
+    public function dashboard()
+    {
+        return response()->json(['message' => 'Добро пожаловать, ученик!']);
+    }
+
     public function store(StoreStudentRequest $request)
     {
         $student = $this->studentService->createStudent($request->validated());

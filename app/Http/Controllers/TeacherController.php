@@ -13,6 +13,10 @@ use App\Http\Resources\ScheduleResource;
 
 class TeacherController extends Controller
 {
+    public function dashboard()
+    {
+        return response()->json(['message' => 'Добро пожаловать, учитель!']);
+    }
     public function getRooms()
     {
         $rooms = Room::all();

@@ -10,6 +10,8 @@ use App\Models\Subject;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 
 class  DatabaseSeeder extends Seeder
 {
@@ -45,13 +47,19 @@ class  DatabaseSeeder extends Seeder
 
         $subject = Subject::create([
             'name' => 'Mathematics',
-            'teacher_id' => $user->id,
+        ]);
+
+        DB::table('subjects')->insert([
+            ['name' => 'Математика'],
+            ['name' => 'Русский язык'],
+            ['name' => 'Физика'],
         ]);
 
         Schedule::create([
             'room_id' => $room->id,
             'week_day' => 'Monday',
-            'subject' => $subject->name,
+            'subject_id' => $subject->name,
+            'teacher_id' => $subject->name,
             'start_time' => '09:00',
             'end_time' => '10:00',
         ]);

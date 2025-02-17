@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'surname', 'date_of_birth', 'email', 'phone', 'password',
+        'name', 'surname', 'date_of_birth', 'email', 'phone', 'password' , 'role',
     ];
 
     /**
@@ -45,8 +45,28 @@ class User extends Authenticatable
         ];
     }
 
+    public function isTeacher()
+    {
+        return $this->role === 'teacher';
+    }
+
+    public function isStudent()
+    {
+        return $this->role === 'student';
+    }
+
+//    public function subjects()
+//    {
+//        return $this->hasMany(Subject::class, 'subject_id');
+//    }
     public function subjects()
     {
-        return $this->hasMany(Subject::class, 'subject_id');
+        return $this->belongsToMany(Subject::class, 'subject_teacher', 'teacher_id', 'subject_id');
     }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'student_id');
+    }
+
 }

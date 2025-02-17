@@ -6,25 +6,16 @@ use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Services\SubjectService;
 use App\Http\Resources\SubjectResource;
 
-class SubjectController extends Controller
+class SubjectController extends BaseController
 {
-    protected $subjectService;
 
-    public function __construct(SubjectService $roomService)
+    public function __construct(SubjectService $subjectService)
     {
-        $this->subjectService = $roomService;
-        return $roomService;
+        parent::__construct($subjectService);
     }
 
-    public function store(StoreSubjectRequest $request)
+    public function store(StoreSubjectRequest|\Illuminate\Foundation\Http\FormRequest $request)
     {
-        $subject = $this->subjectService->createSubject($request->validated());
-        return $subject;
-    }
-
-    public function show($id)
-    {
-        $subject = $this->subjectService->getSubject($id);
-        return $subject;
+        return parent::store($request);
     }
 }

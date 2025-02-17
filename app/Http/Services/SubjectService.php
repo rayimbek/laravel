@@ -20,6 +20,21 @@ class SubjectService
         return new SubjectResource($subject);
     }
 
+    public function getStudentSchedule(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user->isStudent()) {
+            return response()->json(['message' => 'Нет доступа.'], 403);
+        }
+
+        $schedule = Schedule::whereHas('subject', function ($query) use ($user) {
+            $query->whereIn('id', $user->subjects()->pluck('id'));
+        })->get();
+
+        return response()->json(['schedule' => $schedule]);
+    }
+
 
 
 }

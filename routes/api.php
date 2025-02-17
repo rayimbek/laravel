@@ -8,6 +8,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\RoomController;
 
+use App\Http\Controllers\GradeController;
 
 
 Route::get('/test', function () {
@@ -37,7 +38,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/classes', [RoomController::class, 'store']);
     Route::get('/classes/{id}', [RoomController::class, 'show']);
 
+    Route::middleware('teacher')->group(function () {
+        Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard']);
+    });
+
+    Route::middleware('student')->group(function () {
+        Route::get('/student/dashboard', [StudentController::class, 'dashboard']);
+    });
+    Route::middleware('teacher')->post('/grades', [GradeController::class, 'store']);
+    Route::middleware('teacher')->put('/grades/{grade}', [GradeController::class, 'update']);
+    Route::middleware('teacher')->delete('/grades/{grade}', [GradeController::class, 'destroy']);
+
+    Route::get('/grades/{student_id}', [GradeController::class, 'getStudentGrades']);
+    Route::get('/schedule', [ScheduleController::class, 'getStudentSchedule']);
 });
+
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 
